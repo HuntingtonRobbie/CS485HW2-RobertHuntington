@@ -113,7 +113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9490a73b1a785041a8f0b2836f30592, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimation
-  animator: {fileID: 0}
+  animator: {fileID: 5689515488196748210}
   walkAnimationSpeed: 2
 --- !u!1001 &3375617096128847777
 PrefabInstance:
@@ -180,6 +180,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 86954bd586b5cbc4380a87a05acbf57f, type: 3}
+--- !u!95 &5689515488196748210 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 6930373436752673811, guid: 86954bd586b5cbc4380a87a05acbf57f, type: 3}
+  m_PrefabInstance: {fileID: 3375617096128847777}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5689515488205999210 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6930373436760183755, guid: 86954bd586b5cbc4380a87a05acbf57f, type: 3}
