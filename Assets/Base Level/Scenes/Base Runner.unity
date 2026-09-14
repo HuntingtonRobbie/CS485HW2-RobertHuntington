@@ -877,8 +877,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TilePrefabs:
   - {fileID: 449689075088998629, guid: 6a2e4b22cc4108e4f88ef0147dce2b35, type: 3}
-  - {fileID: 3223810174933818944, guid: 4ee5682d806e83c47b89190d7c620483, type: 3}
-  - {fileID: 1051477522049202759, guid: c9155e3aeba536a4d82fe4f9e0a46d2c, type: 3}
   tileCountInFront: 8
   tileCountBehind: 2
   player: {fileID: 342252559}
