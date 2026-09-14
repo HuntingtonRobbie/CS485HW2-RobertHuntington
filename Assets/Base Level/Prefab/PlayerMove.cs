@@ -53,7 +53,7 @@ public class PlayerMove : MonoBehaviour
         //forward/backward movement. moveValue.y=1 when pressing W, moveValue=-1 when pressing S
         rb.MovePosition(rb.position+transform.forward*moveValue.y * Time.deltaTime*forwardSpeed);
         //sideway movement
-        rb.MovePosition(rb.position + transform.right * moveValue.x * Time.deltaTime * forwardSpeed);
+        rb.MovePosition(rb.position + transform.right * moveValue.x * Time.deltaTime * sidewaySpeed);
     }
 
 
