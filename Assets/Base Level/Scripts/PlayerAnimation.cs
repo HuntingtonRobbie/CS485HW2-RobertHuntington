@@ -11,13 +11,17 @@ public class PlayerAnimation : MonoBehaviour
     public Animator animator;                 // the Zombie child's Animator
     public float walkAnimationSpeed = 2f;     // playback multiplier while moving. The pack tuned its walk for ~2 m/s;
     // PlayerMove runs 4, so 2x keeps the feet from sliding. 1 = untouched.
-
+    
+    public float turnSpeed = 720f; //degrees per second the model swings toward the input direction. 720 = half a turn in 0.25s.
+    
+    private PlayerMove playerMove; // read so the lean angle matches actual velocity, not raw input
     private InputAction moveAction;
 
     void Awake()
     {
         moveAction = InputSystem.actions.FindAction("Move");
         if (animator == null) Debug.LogError("Drag the Zombie's Animator into PlayerAnimation on the Player");
+        playerMove = GetComponent<PlayerMove>();   
     }
 
     void Update()
@@ -25,11 +29,25 @@ public class PlayerAnimation : MonoBehaviour
         if (animator == null) return;
         Vector2 move = moveAction.ReadValue<Vector2>();
 
-        // W/S give the signed value the blend tree expects; A/D alone still shows the forward walk
-        float moveSpeed = Mathf.Abs(move.y) > 0.01f ? move.y : Mathf.Abs(move.x);
 
-        animator.SetFloat("MoveSpeed", moveSpeed, 0.1f, Time.deltaTime);   // 0.1 s damping = no snap between idle and walk
-        animator.speed = (moveSpeed == 0f) ? 1f : walkAnimationSpeed;
+        float moveSpeed = Mathf.Clamp01(move.magnitude);
+
+        animator.SetFloat("MoveSpeed", moveSpeed, 0.1f, Time.deltaTime);   // UNCHANGED
+        animator.speed = (moveSpeed < 0.01f) ? 1f : walkAnimationSpeed;    // EDITED: was (moveSpeed == 0f)
+
+        // yaw the model toward where it is actually going.
+        // Weighting by the two speeds means a W+D diagonal leans by the true motion angle,
+        // not a flat 45 degrees.
+        Vector2 vel = (playerMove != null)
+            ? new Vector2(move.x * playerMove.sidewaySpeed, move.y * playerMove.forwardSpeed)
+            : move;
+
+        float targetYaw = (moveSpeed > 0.01f) ? Mathf.Atan2(vel.x, vel.y) * Mathf.Rad2Deg : 0f;
+
+        animator.transform.localRotation = Quaternion.RotateTowards(
+            animator.transform.localRotation,
+            Quaternion.Euler(0f, targetYaw, 0f),
+            turnSpeed * Time.deltaTime);
     }
 
     // Optional: called by CollectableManager when a burger is hit
